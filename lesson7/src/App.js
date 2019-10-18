@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
 
+const btnStyle = {
+  color: 'black',
+  background: 'blue',
+  borderBottom: '3px solid red'
+};
+
 const MyButton = (props) => {
-  return <button onClick={props.onClick} className='my-button'>{props.name}</button>
-}
+  return <button style={btnStyle} onClick={props.onClick} className='my-button'>{props.name}</button>
+};
 
 /**
  * Как высчитываются очки
@@ -62,6 +68,7 @@ export default class App extends React.Component {
 
   render() {
     const {userChoice, compChoice} = this.state;
+
     return (
         <div className="App">
           <header className="App-header">
@@ -74,6 +81,69 @@ export default class App extends React.Component {
             <p>Комп выбрал: {compChoice}</p>
             <p>А твой выбор: {userChoice}</p>
             <p>Победитель: {checkWinner(Number(userChoice), Number(compChoice))}</p>
+          </div>
+        </div>
+    );
+  }
+}
+
+class Square extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+  }
+  render() {
+    return (
+        <button className="square" onClick={() => this.setState({value: 'X'})}>
+          {this.props.value}
+        </button>
+    );
+  }
+}
+
+class Board extends React.Component {
+  renderSquare(i) {
+    return <Square value={i} />;
+  }
+
+  render() {
+    const status = 'Next player: X';
+
+    return (
+        <div>
+          <div className="status">{status}</div>
+          <div className="board-row">
+            {this.renderSquare(0)}
+            {this.renderSquare(1)}
+            {this.renderSquare(2)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(3)}
+            {this.renderSquare(4)}
+            {this.renderSquare(5)}
+          </div>
+          <div className="board-row">
+            {this.renderSquare(6)}
+            {this.renderSquare(7)}
+            {this.renderSquare(8)}
+          </div>
+        </div>
+    );
+  }
+}
+
+class Game extends React.Component {
+  render() {
+    return (
+        <div className="game">
+          <div className="game-board">
+            <Board />
+          </div>
+          <div className="game-info">
+            <div>{/* status */}</div>
+            <ol>{/* TODO */}</ol>
           </div>
         </div>
     );
